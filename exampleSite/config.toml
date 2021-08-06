@@ -10,11 +10,19 @@ enableGitInfo = true
 
 # Needed for mermaid/katex shortcodes
 [markup]
-[markup.goldmark.renderer]
-  unsafe = true
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = true
+    lineNoStart = 1
+    lineNos = true
+    lineNumbersInTable = true
+    tabWidth = 4
+    style = 'dracula'
+  [markup.goldmark.renderer]
+    unsafe = true
 
-[markup.tableOfContents]
-  startLevel = 1
+  [markup.tableOfContents]
+    startLevel = 1
 
 # Multi-lingual mode config
 # There are different options to translate files
