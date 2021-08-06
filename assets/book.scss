@@ -1,8 +1,9 @@
 @import "defaults";
 @import "variables";
-@import "themes/{{ default "light" .Site.Params.BookTheme }}";
+
 
 @import "normalize";
+@import "all.min";
 @import "utils";
 @import "main";
 @import "fonts";

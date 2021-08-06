@@ -1,3 +1,16 @@
 /* You can add custom styles here. */
 
 // @import "plugins/numbered";
+
+// ------ 主题切换 --------
+.magic{
+    display:flex;
+    align-items: center;
+}
+
+
+.magic .book-theme{
+    flex:1;
+    margin-left: 1rem;
+    font-size: 18px;
+}

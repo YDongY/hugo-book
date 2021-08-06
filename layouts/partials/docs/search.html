@@ -1,7 +1,16 @@
 {{ if default true .Site.Params.BookSearch }}
-<div class="book-search">
-  <input type="text" id="book-search-input" placeholder="{{ i18n "Search" }}" aria-label="{{ i18n "Search" }}" maxlength="64" data-hotkeys="s/" />
-  <div class="book-search-spinner hidden"></div>
-  <ul id="book-search-results"></ul>
+<div class="magic">
+  <div class="book-search">
+    <input type="text" id="book-search-input" placeholder="{{ i18n " Search" }}" aria-label="{{ i18n " Search" }}"
+      maxlength="64" data-hotkeys="s/" />
+    <div class="book-search-spinner hidden"></div>
+    <ul id="book-search-results"></ul>
+  </div>
+  <div class="book-theme">
+    <a href="javascript:void(0)" title="切换主题" id="toggle-theme">
+      <i class="fas fa-cloud-sun"></i>
+      <!-- <i class="fas fa-cloud-moon"></i> -->
+    </a>
+  </div>
 </div>
 {{ end }}

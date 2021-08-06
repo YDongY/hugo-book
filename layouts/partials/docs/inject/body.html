@@ -1,0 +1,21 @@
+<script>
+    var html = document.documentElement;
+    const toggleBtn = document.querySelector("#toggle-theme");
+    if (typeof (Storage) !== 'undefined') {
+        if (localStorage.getItem('theme-mode') == 'dark' || html.getAttribute('theme') == 'dark') {
+            toggleBtn.innerHTML = '<i class="fas fa-cloud-moon"></i>'
+        }
+    }
+    toggleBtn.addEventListener('click', e => {
+        if (html.hasAttribute('theme')) {
+            html.removeAttribute('theme')
+            toggleBtn.innerHTML = '<i class="fas fa-cloud-sun"></i>'
+            localStorage.removeItem("theme-mode")
+        }
+        else {
+            html.setAttribute('theme', 'dark');
+            toggleBtn.innerHTML = '<i class="fas fa-cloud-moon"></i>'
+            localStorage.setItem('theme-mode', 'dark');
+        }
+    });
+</script>
