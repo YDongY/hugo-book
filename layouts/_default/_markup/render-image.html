@@ -1,9 +1,9 @@
 {{- if .Page.Site.Params.BookPortableLinks -}}
   {{- template "portable-image" . -}}
 {{- else -}}
-  <a data-fancybox="gallery" href="{{ .Destination | safeURL }}">
+  <!-- <a data-fancybox="gallery" href="{{ .Destination | safeURL }}">
     <img src="{{ .Destination | safeURL }}" alt="{{ .Text }}" {{ with .Title }}title="{{ . }}" {{ end }} />
-  </a>
+  </a> -->
 {{- end -}}
 
 {{- define "portable-image" -}}
@@ -17,7 +17,38 @@
       {{- warnf "Image '%s' not found in '%s'" .Destination .Page.File }}
     {{- end }}
   {{- end }}
-  <a data-fancybox="gallery" href="{{ .Destination | safeURL }}">
-    <img src="{{ .Destination | safeURL }}" alt="{{ .Text }}" {{ with .Title }}title="{{ . }}" {{ end }} />
+  <!-- 适配 markdown obsidian 链接方式 -->
+  {{- $url := urls.Parse .Destination -}}
+  {{- $scheme := $url.Scheme -}}
+
+  <a data-fancybox="gallery" href="
+    {{- if eq $scheme "" -}}
+      {{- if strings.HasSuffix $url.Path ".md" -}}
+        {{- relref .Page .Destination | safeURL -}}
+      {{- else -}}
+        {{- printf "/%s%s" .Page.File.Dir .Destination | safeURL -}}
+      {{- end -}}
+    {{- else -}}
+      {{- .Destination | safeURL -}}
+    {{- end -}}"
+    {{- with .Title }} title="{{ . | safeHTML }}"{{- end -}}>
+    
+    <img src="
+      {{- if eq $scheme "" -}}
+        {{- if strings.HasSuffix $url.Path " .md" -}}
+          {{- relref .Page .Destination | safeURL -}}
+        {{- else -}}
+          {{- printf "/%s%s" .Page.File.Dir .Destination | safeURL -}}
+        {{- end -}}
+      {{- else -}}
+        {{- .Destination | safeURL -}}
+      {{- end -}}"
+      {{- with .Title }} title="{{ . | safeHTML }}" {{- end -}}
+      {{- with .Text }} alt="{{ . | safeHTML }}"
+      {{- end -}} />
   </a>
+  
+  <!-- <a data-fancybox="gallery" href="{{ .Destination | safeURL }}">
+    <img src="{{ .Destination | safeURL }}" alt="{{ .Text }}" {{ with .Title }}title="{{ . }}" {{ end }} />
+  </a> -->
 {{- end -}}

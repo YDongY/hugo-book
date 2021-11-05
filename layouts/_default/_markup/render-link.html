@@ -1,7 +1,23 @@
 {{- if .Page.Site.Params.BookPortableLinks -}}
   {{- template "portable-link" . -}}
 {{- else -}}
-  <a href="{{ .Destination | safeURL }}"{{ with .Title}} title="{{ . }}"{{ end }}>{{ .Text | safeHTML }}</a>
+  <!-- 适配 markdown obsidian 链接方式 -->
+  {{- $url := urls.Parse .Destination -}}
+  {{- $scheme := $url.Scheme -}}
+  <a href="
+    {{- if eq $scheme "" -}}
+      {{- if strings.HasSuffix $url.Path ".md" -}}
+        {{- relref .Page .Destination | safeURL -}}
+      {{- else -}}
+        {{- .Destination | safeURL -}}
+      {{- end -}}
+    {{- else -}}
+      {{- .Destination | safeURL -}}
+    {{- end -}}"
+    {{- with .Title }} title="{{ . | safeHTML }}"{{- end -}}>
+    {{- .Text | safeHTML -}}
+  </a>
+  <!-- <a href="{{ .Destination | safeURL }}"{{ with .Title}} title="{{ . }}"{{ end }}>{{ .Text | safeHTML }}</a> -->
 {{- end -}}
 
 {{- define "portable-link" -}}
@@ -24,5 +40,22 @@
       {{- warnf "Page '%s' not found in '%s'" .Destination .Page.File }}
     {{- end }}
   {{- end }}
-  <a href="{{ $destination | safeURL }}"{{ with .Title}} title="{{ . }}"{{ end }}>{{ .Text | safeHTML }}</a>
+  <!-- <a href="{{ $destination | safeURL }}"{{ with .Title}} title="{{ . }}"{{ end }}>{{ .Text | safeHTML }}</a> -->
+  
+  <!-- 适配 markdown obsidian 链接方式 -->
+  {{- $url := urls.Parse .Destination -}}
+  {{- $scheme := $url.Scheme -}}
+  <a href="
+    {{- if eq $scheme "" -}}
+      {{- if strings.HasSuffix $url.Path ".md" -}}
+        {{- relref .Page .Destination | safeURL -}}
+      {{- else -}}
+        {{- .Destination | safeURL -}}
+      {{- end -}}
+    {{- else -}}
+      {{- .Destination | safeURL -}}
+    {{- end -}}"
+    {{- with .Title }} title="{{ . | safeHTML }}"{{- end -}}>
+    {{- .Text | safeHTML -}}
+  </a>
 {{- end -}}
